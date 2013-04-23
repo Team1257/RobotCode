@@ -14,8 +14,11 @@
 
 #WindRiver
 *.d
-*.c
 *.cproject
 *.projet
 *.wrmakefile
 *.wrproject
+*.log
+*.metadata
+*.ini
+*.plugins
