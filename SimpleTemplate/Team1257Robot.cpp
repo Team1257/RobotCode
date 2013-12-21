@@ -33,40 +33,16 @@ struct target
 
 
 CTeam1257Robot::CTeam1257Robot(void):
-	/*leftDrive1(LEFT_MOTOR1),
-	rightDrive1(RIGHT_MOTOR1),
-	leftDrive2(LEFT_MOTOR2),
-	rightDrive2(RIGHT_MOTOR2),*/
-	//left(1),
-	//right(2),
-	//leftDrive(11),
-	//rightDrive(12),
-	//shoulder1(3),
-	//shoulder2(14),
-	//arm(6),
-	//arm2(16),
-	arm(CARRIAGE),
-	shooter(SHOOTER),
+	
 	left1(LEFT_MOTOR1),
-	left2(LEFT_MOTOR2),
 	right1(RIGHT_MOTOR1),
-	right2(RIGHT_MOTOR2),
 	fire(SERVO_FIRE),
 	team1257Robot(left1,left2,right1,right2),
 	leftStick(LEFT_STICK),
 	rightStick(RIGHT_STICK),
 	epilepsy(LIGHT),
-	headingGyro(GYRO),
-	//armGyro(4),
-	//wall(2),
-	armStopBottom(2),
-	armStopTop(1),
-	//hook1(2),
-	//hook2(3),
-	//walf(4),
-	superUltra(3)
-	//arm(3),
-	// sThingy(6)
+	gyro(GYRO),
+	
 {
 	//team1257LCD->Clear();
 	team1257LCD = DriverStationLCD::GetInstance();
@@ -100,14 +76,14 @@ void CTeam1257Robot::Test()
 	while(move.Get() < 3)
 	{
 		drive(0.5, -0.5); // Turn right
-		team1257LCD->Printf(DriverStationLCD::kUser_Line3, 1, "%f", reduceAngle(headingGyro.GetAngle()));
+		team1257LCD->Printf(DriverStationLCD::kUser_Line3, 1, "%f", reduceAngle(gyro.GetAngle()));
 		team1257LCD->UpdateLCD();
 	}
 	drive(0, 0);
 	while(move.Get() < 4)
 	{
 		drive(-0.5, 0.5); // Turn left
-		team1257LCD->Printf(DriverStationLCD::kUser_Line3, 1, "%f", reduceAngle(headingGyro.GetAngle()));
+		team1257LCD->Printf(DriverStationLCD::kUser_Line3, 1, "%f", reduceAngle(gyro.GetAngle()));
 		team1257LCD->UpdateLCD();
 	}
 	/*while(IsEnabled())
@@ -115,7 +91,7 @@ void CTeam1257Robot::Test()
 		epilepsy.Set(epilepsy.kForward);
 		Wait(1);
 		epilepsy.Set(epilepsy.kOff);
-		team1257LCD->Printf(DriverStationLCD::kUser_Line3, 1, "%f, %f", reduceAngle(headingGyro.GetAngle()), toMM(superUltra.GetValue()));
+		team1257LCD->Printf(DriverStationLCD::kUser_Line3, 1, "%f, %f", reduceAngle(gyro.GetAngle()), toMM(superUltra.GetValue()));
 		team1257LCD->UpdateLCD();
 	}*/
 }
@@ -177,8 +153,7 @@ void CTeam1257Robot::Autonomous()
 	speedTimer.Start();
 	while(reduceAngle(armGyro.GetAngle()) < FINAL_ANGLE - INIT_ANGLE)
 	{
-		shoulder1.Set(speedValue);
-		shoulder2.Set(speedValue);
+		
 		if(speedTimer.Get() >= 0.1)
 		{
 			speedValue += 0.03;
@@ -191,8 +166,7 @@ void CTeam1257Robot::Autonomous()
 	bool called = false;
 	while(IsAutonomous() && IsEnabled())
 	{
-		shoulder1.Set(speedValue);
-		shoulder2.Set(speedValue);
+		
 		if(!called)
 		{
 			shoot();
@@ -210,41 +184,15 @@ void CTeam1257Robot::OperatorControl()
 	camera.WriteCompression(30);
 	camera.WriteWhiteBalance(AxisCamera::kWhiteBalance_FixedIndoor);
 		
-	team1257LCD->Printf(DriverStationLCD::kUser_Line1, 1, "Teleop Engaged.  Drive well, Peter.");
+	team1257LCD->Printf(DriverStationLCD::kUser_Line1, 1, "Teleop Engaged.");
 	team1257LCD->UpdateLCD();
 	
 	Timer shootTimer;
 	int shootiterations=0;
-	//Timer armTimer;
-	//Timer hookTimer;
-	//hookTimer.Start();
-	//sPos = // sThingy.GetAngle();
 	
 	while(IsOperatorControl() && IsEnabled())
 	{
-		/*team1257LCD->Printf(DriverStationLCD::kUser_Line4, 1, "%f", (walf.GetVoltage() / 4.15) * 270);
-		team1257LCD->UpdateLCD();*/
-		/*team1257LCD->Printf(DriverStationLCD::kUser_Line2, 1, "%f", rightStick.GetRawAxis(5));
-		team1257LCD->UpdateLCD();
-		team1257LCD->Printf(DriverStationLCD::kUser_Line4, 1, "%i", armStopBottom.Get());
-		team1257LCD->UpdateLCD();*/
-		fire.SetAngle(sPos);
-		team1257LCD->Printf(DriverStationLCD::kUser_Line2, 1, "%f", shootTimer.Get()); // sThingy.GetAngle());
-		team1257LCD->UpdateLCD();
-		/*team1257LCD->Printf(DriverStationLCD::kUser_Line4, 1, "%f, %f", sPos, // sThingy.GetAngle());
-		team1257LCD->UpdateLCD();*/
-		
-		/*if(rightStick.GetRawButton(7))
-		{
-			shoot();
-			Wait(1);
-		}
-		if(rightStick.GetRawButton(8)) // Loading
-		{
-			
-		}*/
-		//drive(0.5, 0.5);		
-		
+
 		if((leftStick.GetRawAxis(5) < 0 && leftStick.GetY()) ||	leftStick.GetRawAxis(5) > 0 && leftStick.GetY() < 0)
 		{
 			sf = 1;
@@ -266,45 +214,7 @@ void CTeam1257Robot::OperatorControl()
 			arm.Set(0);
 		}
 		
-		if(!armStopTop.Get() && !armStopBottom.Get()) // Default state is false
-		{
-			arm.Set(leftStick.GetRawAxis(3));
-			//arm2.Set(leftStick.GetRawAxis(3));
-		}
-		else if(armStopTop.Get()) // Triggered
-		{
-			team1257LCD->Printf(DriverStationLCD::kUser_Line1, 1, "Top tripped");
-			team1257LCD->UpdateLCD();
-			if(leftStick.GetRawAxis(3) < 0) // Negative, so down
-			{
-				team1257LCD->Printf(DriverStationLCD::kUser_Line1, 1, "Moving down");
-				team1257LCD->UpdateLCD();
-				arm.Set(leftStick.GetRawAxis(3));
-				//arm2.Set(leftStick.GetRawAxis(3));
-			}
-			else
-			{
-				arm.Set(0);
-				//arm2.Set(0);
-			}
-		}
-		else if(armStopBottom.Get()) 
-		{
-			team1257LCD->Printf(DriverStationLCD::kUser_Line1, 1, "Bottom tripped");
-			team1257LCD->UpdateLCD();
-			if(leftStick.GetRawAxis(3) > 0) // Positive, so up
-			{
-				team1257LCD->Printf(DriverStationLCD::kUser_Line1, 1, "Moving up");
-				team1257LCD->UpdateLCD();
-				arm.Set(leftStick.GetRawAxis(3));
-				//arm2.Set(leftStick.GetRawAxis(3));
-			}
-			else
-			{
-				arm.Set(0);
-				//arm2.Set(0);
-			}
-		}
+		
 		
 		if(leftStick.GetRawButton(1) && shootTimer.Get()==0)
 		{	
@@ -515,15 +425,15 @@ bool CTeam1257Robot::aimRobot(AxisCamera& camera)
 	double averagePosX = (double)theTarget.posX;
 	
 	double angle  = ((averagePosX - 160) / 160) * 22.5;
-		headingGyro.Reset();
+		gyro.Reset();
 		
-	while(dAbs(reduceAngle(headingGyro.GetAngle()) - angle) > 0.6 && IsEnabled())
+	while(tAbs(reduceAngle(gyro.GetAngle()) - angle) > 0.6 && IsEnabled())
 	{
-		if(reduceAngle(headingGyro.GetAngle()) - angle < -0.6) // Turn left
+		if(reduceAngle(gyro.GetAngle()) - angle < -0.6) // Turn left
 		{
 			drive(0.7, -0.7);
 		}
-		if(reduceAngle(headingGyro.GetAngle()) - angle > 0.6) // Turn right
+		if(reduceAngle(gyro.GetAngle()) - angle > 0.6) // Turn right
 		{
 			drive(-0.7, 0.7);
 		}
@@ -531,7 +441,7 @@ bool CTeam1257Robot::aimRobot(AxisCamera& camera)
 		if(leftStick.GetRawButton(2) || rightStick.GetRawButton(2))
 			break;
 		
-		team1257LCD->Printf(DriverStationLCD::kUser_Line6, 1, "Angles: %f, %f", reduceAngle(headingGyro.GetAngle()), angle);
+		team1257LCD->Printf(DriverStationLCD::kUser_Line6, 1, "Angles: %f, %f", reduceAngle(gyro.GetAngle()), angle);
 		team1257LCD->UpdateLCD();
 	}
 	
@@ -542,12 +452,6 @@ bool CTeam1257Robot::aimRobot(AxisCamera& camera)
 	return true;
 }
 
-/*void CTeam1257Robot::shoot(bool start)
-{
-	if(start==true)
-		shootTimer.Start();
-	shooter.Set(1.0);
-}*/
 
 void CTeam1257Robot::drive(double left, double right)
 {
@@ -563,7 +467,7 @@ void CTeam1257Robot::drive()
 	//rightDrive2.Set(-leftStick.GetTwist() * sf);
 }
 
-double CTeam1257Robot::dAbs(double num)
+Type CTeam1257Robot::tAbs(Type num)
 {
 	if(num < 0)
 		num *= - 1;
