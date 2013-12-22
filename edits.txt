@@ -1,0 +1,11 @@
+12/20/13: Created a new branch to the repository to alter the code to work with testbot and learn FRC vision.
+Any contributor wishing to join me may do so.
+(For Vision API specification, look in C:/WindRiver/docs/extensions)
+I began to remove old elements that were useless or not applicable to our current situation.
+
+12/21/13: I checked my e-mail to find questions answered and vehement protests made to a simple function change
+(which, through implicit type conversions, I suppose was unnecessary).
+Until we actually have another working gyro, I will not change the identifier of "gyro".
+I seemed to have missed removing superUltra in the .cpp file, so I did that today.
+I created this file to record all changes without worrying about making a ridiculous number of commit messages.
+Quesion: Why is it that we use kForward with our relay, but kOff to turn the LED off? Why not use kOff or kReverse?
