@@ -86,14 +86,7 @@ void CTeam1257Robot::Test()
 		team1257LCD->Printf(DriverStationLCD::kUser_Line3, 1, "%f", reduceAngle(gyro.GetAngle()));
 		team1257LCD->UpdateLCD();
 	}
-	/*while(IsEnabled())
-	{
-		epilepsy.Set(epilepsy.kForward);
-		Wait(1);
-		epilepsy.Set(epilepsy.kOff);
-		team1257LCD->Printf(DriverStationLCD::kUser_Line3, 1, "%f, %f", reduceAngle(gyro.GetAngle()), toMM(superUltra.GetValue()));
-		team1257LCD->UpdateLCD();
-	}*/
+	
 }
 
 void CTeam1257Robot::Autonomous()
@@ -128,14 +121,8 @@ void CTeam1257Robot::Autonomous()
 		while(move.Get() < 1.5 && IsEnabled())
 		{
 			drive(0.4, 0.4);
-			team1257LCD->Printf(DriverStationLCD::kUser_Line3, 1, "Distance (mm): %f", toMM(superUltra.GetVoltage()));
 			team1257LCD->UpdateLCD();
-			if(toMM(superUltra.GetVoltage()) < 508 + 792)
-			{
-				good = false;
-				drive(0, 0);
-				break;
-			}
+			
 			if(leftStick.GetRawButton(2) || rightStick.GetRawButton(2))
 				break;
 		}
