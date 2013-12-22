@@ -13,7 +13,6 @@
 #define INIT_ANGLE 42 // NOTE: IT WILL BE 37 based on nothing
 #define FINAL_ANGLE 22.55 // Deliberate - I swear
 
-template <typename Type>
 
 /*class lineinfo
 {
@@ -50,7 +49,7 @@ public:
 	bool aimRobot(AxisCamera& camera);
 	void drive(double left, double right);
 	void drive();
-	Type tAbs(Type num);
+	double dAbs(double num);
 	float reduceAngle(float angle);
 	double toMM(double voltage);
 	
