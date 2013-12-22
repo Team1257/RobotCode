@@ -467,7 +467,7 @@ void CTeam1257Robot::drive()
 	//rightDrive2.Set(-leftStick.GetTwist() * sf);
 }
 
-Type CTeam1257Robot::tAbs(Type num)
+double CTeam1257Robot::dAbs(double num)
 {
 	if(num < 0)
 		num *= - 1;
