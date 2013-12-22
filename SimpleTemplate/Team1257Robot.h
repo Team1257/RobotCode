@@ -26,18 +26,7 @@ public:
 	void lineinfo::addline(lineinfo &ln);
 	void lineinfo::addlineavgy(lineinfo &ln);
 };
-/*
-void quicksort(lineinfo *arr, unsigned long long start, unsigned long long end);
-unsigned long long partition(lineinfo *arr, unsigned long long start, unsigned long long end);
-void quicksortlk(vector<lineinfo> &arr, unsigned long long start, unsigned long long end);
-unsigned long long partitionlk(vector<lineinfo> &arr, unsigned long long start, unsigned long long end);
-inline bool lessthan(int n1, int n2); //for comparing likely, to sort such that sorted = {2,2,2,2,1,1,3,4,5,6,7,8,8,9,111,113}
-inline bool roughlyequal(int n1, int n2, int tolerence);*/
 
-These functions seem pointless.
-I will comment them out for now, but I see no reason not to delete them.
-There do not even seem to be full definitions, just prototypes.
-*/
 class CTeam1257Robot : public SimpleRobot
 {
 public:
