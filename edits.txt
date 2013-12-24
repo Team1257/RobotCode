@@ -9,3 +9,5 @@ Until we actually have another working gyro, I will not change the identifier of
 I seemed to have missed removing superUltra in the .cpp file, so I did that today.
 I created this file to record all changes without worrying about making a ridiculous number of commit messages.
 Quesion: Why is it that we use kForward with our relay, but kOff to turn the LED off? Why not use kOff or kReverse?
+
+12/23/13: Started to tackle vision with comments.
