@@ -231,19 +231,19 @@ void CTeam1257Robot::OperatorControl()
 
 bool CTeam1257Robot::aimRobot(AxisCamera& camera)
 {
-	ColorImage* colorImage1 = new RGBImage;
+	ColorImage* colorImage1 = new RGBImage; //RGBImage inherits ColorImage for more specific color manipulation.
 	camera.GetImage(colorImage1);
-	ImageInfo info1;
+	ImageInfo info1; // For documentation, see ImageInfo_struct on virtualroadside.
 	Image* imaqImage1 = colorImage1->GetImaqImage();
 	imaqGetImageInfo(imaqImage1, &info1);
-	rgb* pixelImage1 = (rgb*)info1.imageStart;
+	rgb* pixelImage1 = (rgb*)info1.imageStart; // Point a 1257-defined rgb struct pointer to the void pointer to the first pixel.
 	
-	Wait(0.25);
+	Wait(0.25); //Wait for image to be taken.
 	
 	// Light code
-	epilepsy.Set(epilepsy.kForward);
+	epilepsy.Set(epilepsy.kForward); //Use the relay/spike to turn on the LED
 	
-	Wait(0.25);
+	Wait(0.25); //Wait for the LED to be turned on.
 	
 	ColorImage* colorImage2 = new RGBImage;
 	camera.GetImage(colorImage2);
@@ -251,10 +251,10 @@ bool CTeam1257Robot::aimRobot(AxisCamera& camera)
 	Image* imaqImage2 = colorImage2->GetImaqImage();
 	imaqGetImageInfo(imaqImage2, &info2);
 	rgb* pixelImage2 = (rgb*)info2.imageStart;
-	
+	//Repeat the above process for the new image. This image should have green light reflected back from a target.
 	int prevX = -500;
 	
-	target final[15];
+	target final[15]; //Why 15 targets?
 	
 	if(info1.xRes < 191)
 		return false;
@@ -266,7 +266,7 @@ bool CTeam1257Robot::aimRobot(AxisCamera& camera)
 		for(int x = 0; x < info1.xRes; x++)
 		{				
 			// Do the processing
-			if((int)pixelImage2->green - (int)pixelImage1->green > 100) 
+			if((int)pixelImage2->green - (int)pixelImage1->green > 100)
 			{
 				if(x - prevX > 7) // Big jump - new target
 				{
@@ -282,7 +282,7 @@ bool CTeam1257Robot::aimRobot(AxisCamera& camera)
 				}
 				prevX = x;
 			}
-			pixelImage1++;
+			pixelImage1++; //Increment each pointer to the next pixel.
 			pixelImage2++;
 			
 			if(leftStick.GetRawButton(2) || rightStick.GetRawButton(2))
