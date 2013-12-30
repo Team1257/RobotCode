@@ -11,3 +11,7 @@ I created this file to record all changes without worrying about making a ridicu
 Quesion: Why is it that we use kForward with our relay, but kOff to turn the LED off? Why not use kOff or kReverse?
 
 12/23/13: Started to tackle vision with comments.
+
+12/29/13: Hello, everybody. I am sorry for the sudden pause in action on my branch, but I got a bit distracted by
+my new Arduino starter kit. Oh well. I'll be more active by the time we get back. FIRST Choice opened today. Some cheap
+items are out of stock, but most major items have barely been touched.
